@@ -6,30 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.ostis.scmemory.model.exception.ScMemoryException;
 import org.ostis.scmemory.websocketmemory.core.OstisClient;
-import org.ostis.scmemory.websocketmemory.message.request.CheckScElTypeRequest;
-import org.ostis.scmemory.websocketmemory.message.request.CreateScElRequest;
-import org.ostis.scmemory.websocketmemory.message.request.DeleteScElRequest;
-import org.ostis.scmemory.websocketmemory.message.request.FindByPatternRequest;
-import org.ostis.scmemory.websocketmemory.message.request.KeynodeRequest;
-import org.ostis.scmemory.websocketmemory.message.request.GetLinkContentRequest;
-import org.ostis.scmemory.websocketmemory.message.request.ScRequest;
-import org.ostis.scmemory.websocketmemory.message.request.SetLinkContentRequest;
-import org.ostis.scmemory.websocketmemory.message.response.CheckScElTypeResponse;
-import org.ostis.scmemory.websocketmemory.message.response.CreateScElResponse;
-import org.ostis.scmemory.websocketmemory.message.response.DeleteScElResponse;
-import org.ostis.scmemory.websocketmemory.message.response.FindByPatternResponse;
-import org.ostis.scmemory.websocketmemory.message.response.KeynodeResponse;
-import org.ostis.scmemory.websocketmemory.message.response.GetLinkContentResponse;
-import org.ostis.scmemory.websocketmemory.message.response.SetLinkContentResponse;
-import org.ostis.scmemory.websocketmemory.sender.RequestSender;
 import org.ostis.scmemory.websocketmemory.memory.exception.OstisConnectionException;
-import org.ostis.scmemory.websocketmemory.memory.message.response.CheckScElTypeResponseImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.response.CreateScElResponseImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.response.DeleteScElResponseImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.response.FindByPatternResponseImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.response.KeynodeResponseImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.response.GetLinkContentResponseImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.response.SetLinkContentResponseImpl;
+import org.ostis.scmemory.websocketmemory.memory.message.response.*;
+import org.ostis.scmemory.websocketmemory.message.request.*;
+import org.ostis.scmemory.websocketmemory.message.response.*;
+import org.ostis.scmemory.websocketmemory.sender.RequestSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,6 +58,11 @@ public class RequestSenderImpl implements RequestSender {
     }
 
     @Override
+    public GenerateByPatternResponse sendGenerateByPatternRequest(GenerateByPatternRequest request) throws ScMemoryException {
+        return send(request, GenerateByPatternResponseImpl.class);
+    }
+
+    @Override
     public SetLinkContentResponse sendSetLinkContentRequest(SetLinkContentRequest request) throws ScMemoryException {
         return send(request, SetLinkContentResponseImpl.class);
     }
@@ -87,7 +73,7 @@ public class RequestSenderImpl implements RequestSender {
     }
 
     @Override
-    public KeynodeResponse sendFindKeynodeRequest(KeynodeRequest request) throws ScMemoryException {
+    public KeynodeResponse sendKeynodeRequest(KeynodeRequest request) throws ScMemoryException {
         return send(request, KeynodeResponseImpl.class);
     }
 

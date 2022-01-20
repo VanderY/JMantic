@@ -5,74 +5,41 @@ import org.ostis.scmemory.model.element.ScElement;
 import org.ostis.scmemory.model.element.UnknownScElement;
 import org.ostis.scmemory.model.element.edge.EdgeType;
 import org.ostis.scmemory.model.element.edge.ScEdge;
-import org.ostis.scmemory.model.element.link.LinkContentType;
-import org.ostis.scmemory.model.element.link.LinkType;
-import org.ostis.scmemory.model.element.link.ScLink;
-import org.ostis.scmemory.model.element.link.ScLinkFloat;
-import org.ostis.scmemory.model.element.link.ScLinkInteger;
-import org.ostis.scmemory.model.element.link.ScLinkString;
+import org.ostis.scmemory.model.element.link.*;
 import org.ostis.scmemory.model.element.node.NodeType;
 import org.ostis.scmemory.model.element.node.ScNode;
 import org.ostis.scmemory.model.exception.ScMemoryException;
-import org.ostis.scmemory.model.pattern.element.ScAliasedElement;
-import org.ostis.scmemory.model.pattern.pattern3.ScConstruction3;
-import org.ostis.scmemory.model.pattern.pattern5.ScConstruction5;
-import org.ostis.scmemory.model.pattern.element.ScFixedElement;
 import org.ostis.scmemory.model.pattern.ScPattern;
-import org.ostis.scmemory.model.pattern.pattern3.ScPattern3;
-import org.ostis.scmemory.model.pattern.pattern5.ScPattern5;
-import org.ostis.scmemory.model.pattern.element.ScPatternElement;
 import org.ostis.scmemory.model.pattern.ScPatternTriplet;
+import org.ostis.scmemory.model.pattern.element.ScAliasedElement;
+import org.ostis.scmemory.model.pattern.element.ScFixedElement;
+import org.ostis.scmemory.model.pattern.element.ScPatternElement;
 import org.ostis.scmemory.model.pattern.element.ScTypedElement;
+import org.ostis.scmemory.model.pattern.pattern3.ScConstruction3;
+import org.ostis.scmemory.model.pattern.pattern3.ScPattern3;
+import org.ostis.scmemory.model.pattern.pattern5.ScConstruction5;
+import org.ostis.scmemory.model.pattern.pattern5.ScPattern5;
 import org.ostis.scmemory.websocketmemory.core.OstisClient;
-import org.ostis.scmemory.websocketmemory.memory.exception.ExceptionMessages;
-import org.ostis.scmemory.websocketmemory.memory.structures.FindKeynodeStruct;
-import org.ostis.scmemory.websocketmemory.memory.structures.ResolveKeynodeStruct;
-import org.ostis.scmemory.websocketmemory.message.request.CheckScElTypeRequest;
-import org.ostis.scmemory.websocketmemory.message.request.CreateScElRequest;
-import org.ostis.scmemory.websocketmemory.message.request.DeleteScElRequest;
-import org.ostis.scmemory.websocketmemory.message.request.FindByPatternRequest;
-import org.ostis.scmemory.websocketmemory.message.request.KeynodeRequest;
-import org.ostis.scmemory.websocketmemory.message.request.GetLinkContentRequest;
-import org.ostis.scmemory.websocketmemory.message.response.CheckScElTypeResponse;
-import org.ostis.scmemory.websocketmemory.message.response.CreateScElResponse;
-import org.ostis.scmemory.websocketmemory.message.response.DeleteScElResponse;
-import org.ostis.scmemory.websocketmemory.message.response.FindByPatternResponse;
-import org.ostis.scmemory.websocketmemory.message.response.KeynodeResponse;
-import org.ostis.scmemory.websocketmemory.message.response.GetLinkContentResponse;
-import org.ostis.scmemory.websocketmemory.message.response.SetLinkContentResponse;
-import org.ostis.scmemory.websocketmemory.sender.RequestSender;
 import org.ostis.scmemory.websocketmemory.memory.core.OstisClientSync;
-import org.ostis.scmemory.websocketmemory.memory.element.ScEdgeImpl;
-import org.ostis.scmemory.websocketmemory.memory.element.ScEntity;
-import org.ostis.scmemory.websocketmemory.memory.element.ScLinkFloatImpl;
-import org.ostis.scmemory.websocketmemory.memory.element.ScLinkIntegerImpl;
-import org.ostis.scmemory.websocketmemory.memory.element.ScLinkStringImpl;
-import org.ostis.scmemory.websocketmemory.memory.element.ScNodeImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.request.CheckScElTypeRequestImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.request.CreateScElRequestImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.request.DeleteScElRequestImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.request.FindByPatternRequestImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.request.KeynodeRequestImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.request.GetLinkContentRequestImpl;
-import org.ostis.scmemory.websocketmemory.memory.message.request.SetLinkContentRequestImpl;
+import org.ostis.scmemory.websocketmemory.memory.element.*;
+import org.ostis.scmemory.websocketmemory.memory.exception.ExceptionMessages;
+import org.ostis.scmemory.websocketmemory.memory.message.request.*;
 import org.ostis.scmemory.websocketmemory.memory.pattern.DefaultWebsocketScPattern;
+import org.ostis.scmemory.websocketmemory.memory.pattern.SearchingPatternTriple;
 import org.ostis.scmemory.websocketmemory.memory.pattern.element.AliasPatternElement;
 import org.ostis.scmemory.websocketmemory.memory.pattern.element.FixedPatternElement;
 import org.ostis.scmemory.websocketmemory.memory.pattern.element.TypePatternElement;
 import org.ostis.scmemory.websocketmemory.memory.sender.RequestSenderImpl;
-import org.ostis.scmemory.websocketmemory.memory.pattern.BasicPatternTriple;
+import org.ostis.scmemory.websocketmemory.memory.structures.FindKeynodeStruct;
+import org.ostis.scmemory.websocketmemory.memory.structures.ResolveKeynodeStruct;
 import org.ostis.scmemory.websocketmemory.memory.structures.ScConstruction3Impl;
 import org.ostis.scmemory.websocketmemory.memory.structures.ScConstruction5Impl;
+import org.ostis.scmemory.websocketmemory.message.request.*;
+import org.ostis.scmemory.websocketmemory.message.response.*;
+import org.ostis.scmemory.websocketmemory.sender.RequestSender;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Stream;
@@ -97,7 +64,7 @@ import java.util.stream.Stream;
 public class SyncOstisScMemory implements ScMemory {
     private final RequestSender requestSender;
     private final OstisClient ostisClient;
-    private final Map<Long, ScElement> searchedScElements = new HashMap<>();
+    private final Map<Long, ScElement> foundScElements = new HashMap<>();
     private final ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
 
     public SyncOstisScMemory(URI serverURI) {
@@ -107,9 +74,7 @@ public class SyncOstisScMemory implements ScMemory {
 
     @Override
     public Stream<? extends ScNode> createNodes(Stream<NodeType> elements) throws ScMemoryException {
-        List<ScNodeImpl> nodesToCreate = elements
-                .map(ScNodeImpl::new)
-                .toList();
+        List<ScNodeImpl> nodesToCreate = elements.map(ScNodeImpl::new).toList();
         CreateScElRequest request = new CreateScElRequestImpl();
         request.addToRequest(nodesToCreate);
 
@@ -134,7 +99,11 @@ public class SyncOstisScMemory implements ScMemory {
         Iterator<? extends ScElement> firstComponentsIter = sources.iterator();
         Iterator<? extends ScElement> secondComponentsIter = targets.iterator();
         while (elementsTypesIter.hasNext() && firstComponentsIter.hasNext() && secondComponentsIter.hasNext()) {
-            ScEdge edge = new ScEdgeImpl(elementsTypesIter.next(), firstComponentsIter.next(), secondComponentsIter.next());
+            ScEdge edge = new ScEdgeImpl(
+                    elementsTypesIter.next(),
+                    firstComponentsIter.next(),
+                    secondComponentsIter.next()
+            );
             request.addElementToRequest(edge);
             result.add(edge);
         }
@@ -186,10 +155,17 @@ public class SyncOstisScMemory implements ScMemory {
 
         ScPattern pattern3 = new DefaultWebsocketScPattern();
 
-        ScPatternTriplet triple = new BasicPatternTriple(
-                new FixedPatternElement(pattern.get1()),
-                new TypePatternElement<>(pattern.get2(), new AliasPatternElement("edge_2")),
-                convertToPatternElement(pattern.get3(), new AliasPatternElement("element_3"))
+        ScPatternTriplet triple = new SearchingPatternTriple(
+                new FixedPatternElement(
+                        pattern.get1()),
+                new TypePatternElement<>(
+                        pattern.get2(),
+                        new AliasPatternElement("edge_2")
+                ),
+                convertToPatternElement(
+                        pattern.get3(),
+                        new AliasPatternElement("element_3")
+                )
         );
         pattern3.addElement(triple);
 
@@ -200,9 +176,11 @@ public class SyncOstisScMemory implements ScMemory {
         for (Stream<? extends ScElement> stream : streams) {
             List<? extends ScElement> currentTriplet = stream.toList();
             ScConstruction3<t1, T3> temp = new ScConstruction3Impl<>(
-                    ((t1) currentTriplet.get(0)),
+                    (
+                            (t1) currentTriplet.get(0)),
                     ((ScEdge) currentTriplet.get(1)),
-                    ((T3) currentTriplet.get(2)));
+                    ((T3) currentTriplet.get(2))
+            );
             result.add(temp);
         }
 
@@ -215,16 +193,29 @@ public class SyncOstisScMemory implements ScMemory {
         ScPattern pattern5 = new DefaultWebsocketScPattern();
 
         ScAliasedElement edge2Alias = new AliasPatternElement("edge_2");
-        ScPatternTriplet triple = new BasicPatternTriple(
+        ScPatternTriplet triple = new SearchingPatternTriple(
                 new FixedPatternElement(pattern.get1()),
-                new TypePatternElement<>(pattern.get2(), edge2Alias),
-                convertToPatternElement(pattern.get3(), new AliasPatternElement("element_3"))
+                new TypePatternElement<>(
+                        pattern.get2(),
+                        edge2Alias
+                ),
+                convertToPatternElement(
+                        pattern.get3(),
+                        new AliasPatternElement("element_3")
+                )
         );
-        ScPatternTriplet relTriple = new BasicPatternTriple(
-                convertToPatternElement(pattern.get5(), new AliasPatternElement("element_5")),
-                new TypePatternElement<>(pattern.get4(), new AliasPatternElement("edge_4")),
+        ScPatternTriplet relTriple = new SearchingPatternTriple(
+                convertToPatternElement(
+                        pattern.get5(),
+                        new AliasPatternElement("element_5")
+                ),
+                new TypePatternElement<>(
+                        pattern.get4(),
+                        new AliasPatternElement("edge_4")
+                ),
                 edge2Alias
         );
+
         pattern5.addElement(triple);
         pattern5.addElement(relTriple);
 
@@ -236,11 +227,13 @@ public class SyncOstisScMemory implements ScMemory {
         for (Stream<? extends ScElement> stream : streams) {
             List<? extends ScElement> currentElementsSet = stream.toList();
             ScConstruction5<t1, T3, T5> temp = new ScConstruction5Impl<>(
-                    ((t1) currentElementsSet.get(0)),
+                    (
+                            (t1) currentElementsSet.get(0)),
                     ((ScEdge) currentElementsSet.get(1)),
                     ((T3) currentElementsSet.get(2)),
                     ((ScEdge) currentElementsSet.get(4)),
-                    ((T5) currentElementsSet.get(3)));
+                    ((T5) currentElementsSet.get(3))
+            );
             result.add(temp);
         }
 
@@ -248,8 +241,52 @@ public class SyncOstisScMemory implements ScMemory {
     }
 
     public Stream<Stream<? extends ScElement>> find(ScPattern pattern) throws ScMemoryException {
-        searchedScElements.clear();
+        foundScElements.clear();
         return findPattern(pattern);
+    }
+
+    @Override
+    public Stream<? extends ScElement> generate(ScPattern pattern) throws ScMemoryException {
+        GenerateByPatternRequest request = new GenerateByPatternRequestImpl();
+        pattern.getElements().forEach(request::addComponent);
+        GenerateByPatternResponse response = requestSender.sendGenerateByPatternRequest(request);
+        List<ScPatternElement> patternElements = pattern.getElements().
+                flatMap(e -> Stream.of(e.get1(), e.get2(), e.get3())).
+                toList();
+        Map<ScAliasedElement, ScElement> aliases = new HashMap<>(patternElements.size(), 1);
+
+        return mapPatternElementsToScElements(response.getFoundAddresses().toList(), patternElements, aliases).stream();
+    }
+
+    private List<ScElement> mapPatternElementsToScElements(List<Long> adresses,
+                                                           List<ScPatternElement> patternElements,
+                                                           Map<ScAliasedElement, ScElement> aliases) throws ScMemoryException {
+        Iterator<Long> addressesIterator = adresses.iterator();
+        Iterator<ScPatternElement> patternElementIterator = patternElements.iterator();
+        List<ScElement> result = new ArrayList<>();
+        while (patternElementIterator.hasNext()) {
+            var el = patternElementIterator.next();
+            switch (el.getType()) {
+                case ALIAS -> {
+                    result.add(aliases.get((ScAliasedElement) el));
+                    addressesIterator.next();
+                }
+                case TYPE -> {
+                    var element = createScElementByType(((ScTypedElement<?>) el).getValue(), addressesIterator.next());
+                    result.add(element);
+                    aliases.put(((ScTypedElement<?>) el).getAlias(), element);
+                    foundScElements.put(element.getAddress(), element);
+                }
+                case ADDR -> {
+                    ScFixedElement fixedElement = (ScFixedElement) el;
+                    result.add(fixedElement.getElement());
+                    foundScElements.put(fixedElement.getElement().getAddress(), fixedElement.getElement());
+                    addressesIterator.next();
+                }
+                default -> throw new IllegalStateException(ExceptionMessages.sendReportToDeveloper);
+            }
+        }
+        return result;
     }
 
     private Stream<Stream<? extends ScElement>> findPattern(ScPattern pattern) throws ScMemoryException {
@@ -259,35 +296,19 @@ public class SyncOstisScMemory implements ScMemory {
         FindByPatternResponse response = requestSender.sendFindByPatternRequest(request);
         List<List<ScElement>> result = new ArrayList<>();
 
-        List<ScPatternElement> patternElements = pattern.getElements().flatMap(e -> Stream.of(e.get1(), e.get2(), e.get3())).toList();
+        List<ScPatternElement> patternElements = pattern.getElements().flatMap(e -> Stream.of(
+                e.get1(),
+                e.get2(),
+                e.get3()
+        )).toList();
         Map<ScAliasedElement, ScElement> aliases = new HashMap<>(patternElements.size(), 1);
 
-        for (Stream<Long> triplet : response.getFoundAddresses().toList()) {
-            Iterator<ScPatternElement> patternElementIterator = patternElements.iterator();
-            List<ScElement> tempResult = new ArrayList<>(patternElements.size());
-            Iterator<Long> addressesIterator = triplet.iterator();
-            while (patternElementIterator.hasNext()) {
-                var el = patternElementIterator.next();
-                switch (el.getType()) {
-                    case ALIAS -> {
-                        tempResult.add(aliases.get((ScAliasedElement) el));
-                        addressesIterator.next();
-                    }
-                    case TYPE -> {
-                        var element = createScElementByType(((ScTypedElement<?>) el).getValue(), addressesIterator.next());
-                        tempResult.add(element);
-                        aliases.put(((ScTypedElement<?>) el).getAlias(), element);
-                        searchedScElements.put(element.getAddress(), element);
-                    }
-                    case ADDR -> {
-                        ScFixedElement fixedElement = (ScFixedElement) el;
-                        tempResult.add(fixedElement.getElement());
-                        searchedScElements.put(fixedElement.getElement().getAddress(), fixedElement.getElement());
-                        addressesIterator.next();
-                    }
-                    default -> throw new IllegalStateException(ExceptionMessages.sendReportToDeveloper);
-                }
-            }
+        for (Stream<Long> addressesSet : response.getFoundAddresses().toList()) {
+            List<ScElement> tempResult = mapPatternElementsToScElements(
+                    addressesSet.toList(),
+                    patternElements,
+                    aliases
+            );
             result.add(tempResult);
         }
 
@@ -298,11 +319,18 @@ public class SyncOstisScMemory implements ScMemory {
         if (type instanceof EdgeType edgeType) {
             ScPattern pattern = new DefaultWebsocketScPattern();
             ScEdgeImpl edge = new ScEdgeImpl(edgeType, addr);
-            pattern.addElement(new BasicPatternTriple(
-                    new TypePatternElement<>(UnknownScElement.ELEMENT, new AliasPatternElement("1")),
-                    new FixedPatternElement(edge),
-                    new TypePatternElement<>(UnknownScElement.ELEMENT, new AliasPatternElement("2"))
-            ));
+            pattern.addElement(new SearchingPatternTriple(
+                                       new TypePatternElement<>(
+                                               UnknownScElement.ELEMENT,
+                                               new AliasPatternElement("1")
+                                       ),
+                                       new FixedPatternElement(edge),
+                                       new TypePatternElement<>(
+                                               UnknownScElement.ELEMENT,
+                                               new AliasPatternElement("2")
+                                       )
+                               )
+            );
             FindByPatternRequest request = new FindByPatternRequestImpl();
             pattern.getElements().forEach(request::addComponent);
             List<? extends ScElement> triplet;
@@ -312,8 +340,8 @@ public class SyncOstisScMemory implements ScMemory {
             } else {
                 throw new IllegalStateException(ExceptionMessages.sendReportToDeveloper);
             }
-            ScElement sourceElement = searchedScElements.get(triplet.get(0).getAddress());
-            ScElement targetElement = searchedScElements.get(triplet.get(2).getAddress());
+            ScElement sourceElement = foundScElements.get(triplet.get(0).getAddress());
+            ScElement targetElement = foundScElements.get(triplet.get(2).getAddress());
             edge.setSourceElement(sourceElement);
             edge.setTargetElement(targetElement);
 
@@ -332,7 +360,7 @@ public class SyncOstisScMemory implements ScMemory {
             try {
                 Object o = checkElementType(addr);
                 ScElement element = createScElementByType(o, addr);
-                searchedScElements.put(addr, element);
+                foundScElements.put(addr, element);
                 return element;
             } catch (Exception e) {
                 throw new ScMemoryException(e);
@@ -399,7 +427,7 @@ public class SyncOstisScMemory implements ScMemory {
         KeynodeRequest request = new KeynodeRequestImpl();
         List<String> content = idtf.toList();
         request.addAllIdtf(content.stream().map(FindKeynodeStruct::new).toList());
-        KeynodeResponse response = requestSender.sendFindKeynodeRequest(request);
+        KeynodeResponse response = requestSender.sendKeynodeRequest(request);
 
         Iterator<String> contentIterator = content.iterator();
         List<Optional<? extends ScLinkString>> result = new ArrayList<>(content.size());
@@ -421,11 +449,11 @@ public class SyncOstisScMemory implements ScMemory {
         List<String> content = idtf.toList();
         Iterator<String> idtfIterator = content.iterator();
         Iterator<NodeType> typeIterator = nodeType.toList().iterator();
-        while (idtfIterator.hasNext() || typeIterator.hasNext()){
+        while (idtfIterator.hasNext() || typeIterator.hasNext()) {
             addToRequest.add(new ResolveKeynodeStruct(idtfIterator.next(), typeIterator.next()));
         }
         request.addAllIdtf(addToRequest);
-        KeynodeResponse response = requestSender.sendFindKeynodeRequest(request);
+        KeynodeResponse response = requestSender.sendKeynodeRequest(request);
 
         Iterator<String> contentIterator = content.iterator();
         List<ScLinkString> result = new ArrayList<>(content.size());
@@ -456,7 +484,8 @@ public class SyncOstisScMemory implements ScMemory {
             return new TypePatternElement<>(type, alias);
         }
 
-        throw new IllegalArgumentException("You should path in ScPatterns only objects of type ScElement or of type NodeType|EdgeType|LinkType");
+        throw new IllegalArgumentException(
+                "You should path in ScPatterns only objects of type ScElement or of type NodeType|EdgeType|LinkType");
     }
 
     /**
@@ -469,8 +498,9 @@ public class SyncOstisScMemory implements ScMemory {
      * @return created sc-link
      * @throws ScMemoryException - see cause for more details.
      */
-    private <C> Stream<? extends ScEntity> createLink(Stream<LinkType> elements, Stream<C> content
-            , LinkContentType contentType) throws ScMemoryException {
+    private <C> Stream<? extends ScEntity> createLink(Stream<LinkType> elements,
+                                                      Stream<C> content,
+                                                      LinkContentType contentType) throws ScMemoryException {
         CreateScElRequest request = new CreateScElRequestImpl();
         List<ScEntity> result = new ArrayList<>();
         Iterator<LinkType> linkTypeIter = elements.iterator();

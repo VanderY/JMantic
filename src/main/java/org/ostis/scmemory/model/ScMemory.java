@@ -10,10 +10,10 @@ import org.ostis.scmemory.model.element.link.ScLinkString;
 import org.ostis.scmemory.model.element.node.NodeType;
 import org.ostis.scmemory.model.element.node.ScNode;
 import org.ostis.scmemory.model.exception.ScMemoryException;
-import org.ostis.scmemory.model.pattern.pattern3.ScConstruction3;
-import org.ostis.scmemory.model.pattern.pattern5.ScConstruction5;
 import org.ostis.scmemory.model.pattern.ScPattern;
+import org.ostis.scmemory.model.pattern.pattern3.ScConstruction3;
 import org.ostis.scmemory.model.pattern.pattern3.ScPattern3;
+import org.ostis.scmemory.model.pattern.pattern5.ScConstruction5;
 import org.ostis.scmemory.model.pattern.pattern5.ScPattern5;
 
 import java.util.Optional;
@@ -131,6 +131,11 @@ public interface ScMemory {
     Stream<Stream<? extends ScElement>> find(ScPattern pattern) throws ScMemoryException;
 
     /**
+     * @since 0.6.0
+     */
+    Stream<? extends ScElement> generate(ScPattern pattern) throws ScMemoryException;
+
+    /**
      * Methods for changing the content of {@link ScLinkInteger}
      * All passed streams must have the same length.
      *
@@ -195,13 +200,18 @@ public interface ScMemory {
     /**
      * Method for getting the sc-link by content
      *
-     * @param idtf content for finding
+     * @param idtf content for searching.
      * @return stream of found sc-links
      * @since 0.3.3
      */
     Stream<Optional<? extends ScLinkString>> findKeynodes(Stream<String> idtf) throws ScMemoryException;
 
     /**
+     * Method for getting sc-link by content or creating new if not exist.
+     *
+     * @param idtf - content for searching
+     * @param type - node type that will be created if content is not found.
+     * @return stream of found/created sc-links
      * @since 0.6.0
      */
     Stream<? extends ScLinkString> resolveKeynodes(Stream<String> idtf, Stream<NodeType> type) throws ScMemoryException;

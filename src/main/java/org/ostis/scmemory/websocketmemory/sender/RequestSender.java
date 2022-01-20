@@ -46,6 +46,15 @@ public interface RequestSender {
     FindByPatternResponse sendFindByPatternRequest(FindByPatternRequest request) throws ScMemoryException;
 
     /**
+     * Method for sending the generateByTemplate request
+     *
+     * @param request a request that contains the items to be generated
+     * @return response where is the information about the generated elements
+     * @throws ScMemoryException if something went wrong with the connection to the base
+     */
+    GenerateByPatternResponse sendGenerateByPatternRequest(GenerateByPatternRequest request) throws ScMemoryException;
+
+    /**
      * Method for sending the setLinkContent request
      *
      * @param request request storing links and data that needs to be placed in them
@@ -57,13 +66,27 @@ public interface RequestSender {
     /**
      * Method for sending the getLinkContent request
      *
-     * @param request request storing links and data that needs to be placed in them
+     * @param request storing links and data that needs to be placed in them
      * @return response where is the information about links
      * @throws ScMemoryException if something went wrong with the connection to the base
      */
     GetLinkContentResponse sendGetLinkContentRequest(GetLinkContentRequest request) throws ScMemoryException;
 
-    KeynodeResponse sendFindKeynodeRequest(KeynodeRequest request) throws ScMemoryException;
+    /**
+     * Method for sending the keynode operations request
+     *
+     * @param request information about keynode and operation with it
+     * @return response where is the information about keynode-links
+     * @throws ScMemoryException if something went wrong with the connection to the base
+     */
+    KeynodeResponse sendKeynodeRequest(KeynodeRequest request) throws ScMemoryException;
 
+    /**
+     * Method for sending the checkElementType request
+     *
+     * @param request information about checked addresses
+     * @return response where is the information about types of checked addresses
+     * @throws ScMemoryException if something went wrong with the connection to the base
+     */
     CheckScElTypeResponse sendCheckScElTypeRequest(CheckScElTypeRequest request) throws ScMemoryException;
 }
